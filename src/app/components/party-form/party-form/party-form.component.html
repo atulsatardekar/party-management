@@ -1,0 +1,261 @@
+<!-- party-form.component.html -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">{{ isEditMode ? 'Edit Party' : 'Add New Party' }}</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="partyForm" (ngSubmit)="onSubmit()">
+            <!-- Basic Information -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <h5>Basic Information</h5>
+                <div class="mb-3">
+                  <label class="form-label required">Name</label>
+                  <input type="text" formControlName="name" class="form-control"
+                         [class.is-invalid]="submitted && f['name'].errors" />
+                  <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                    Name is required
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Company Name</label>
+                  <input type="text" formControlName="company_name" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label required">Mobile No</label>
+                  <input type="text" formControlName="mobile_no" class="form-control"
+                         [class.is-invalid]="submitted && f['mobile_no'].errors" />
+                  <div *ngIf="submitted && f['mobile_no'].errors" class="invalid-feedback">
+                    <div *ngIf="f['mobile_no'].errors['required']">Mobile number is required</div>
+                    <div *ngIf="f['mobile_no'].errors['pattern']">Please enter a valid 10-digit mobile number</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Telephone No</label>
+                  <input type="text" formControlName="telephone_no" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">WhatsApp No</label>
+                  <input type="text" formControlName="whatsapp_no" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" formControlName="email" class="form-control"
+                         [class.is-invalid]="submitted && f['email'].errors" />
+                  <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                    Please enter a valid email address
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <h5>Tax & Financial Information</h5>
+                <div class="mb-3">
+                  <label class="form-label">GST Type</label>
+                  <select formControlName="gst_type" class="form-select">
+                    <option *ngFor="let type of gstTypes" [value]="type">{{ type }}</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">GSTIN</label>
+                  <input type="text" formControlName="gstin" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">PAN No</label>
+                  <input type="text" formControlName="pan_no" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Credit Limit</label>
+                  <input type="number" formControlName="credit_limit" class="form-control" />
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Opening Balance</label>
+                    <input type="number" formControlName="opening_balance" class="form-control" />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Balance Type</label>
+                    <select formControlName="opening_balance_type" class="form-select">
+                      <option *ngFor="let type of balanceTypes" [value]="type">{{ type }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="login_access" id="loginAccess">
+                    <label class="form-check-label" for="loginAccess">Login Access</label>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="apply_tds" id="applyTds">
+                    <label class="form-check-label" for="applyTds">Apply TDS</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Addresses -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h5 class="d-flex justify-content-between align-items-center">
+                  Addresses
+                  <button type="button" class="btn btn-sm btn-success" (click)="addAddress()">
+                    <i class="fas fa-plus"></i> Add Address
+                  </button>
+                </h5>
+
+                <div formArrayName="address" *ngFor="let address of addresses.controls; let i = index">
+                  <div [formGroupName]="i" class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <span>Address {{ i + 1 }}</span>
+                      <button type="button" class="btn btn-sm btn-danger" (click)="removeAddress(i)"
+                              *ngIf="addresses.length > 1">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label required">Address Line 1</label>
+                            <input type="text" formControlName="address_line_1" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label">Address Line 2</label>
+                            <input type="text" formControlName="address_line_2" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">Country</label>
+                            <input type="text" formControlName="country" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">State</label>
+                            <input type="text" formControlName="state" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">City</label>
+                            <input type="text" formControlName="city" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">Pincode</label>
+                            <input type="text" formControlName="pincode" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label required">Address Type</label>
+                            <select formControlName="address_type" class="form-select">
+                              <option *ngFor="let type of addressTypes" [value]="type">{{ type }}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bank Details -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h5 class="d-flex justify-content-between align-items-center">
+                  Bank Details
+                  <button type="button" class="btn btn-sm btn-success" (click)="addBank()">
+                    <i class="fas fa-plus"></i> Add Bank
+                  </button>
+                </h5>
+
+                <div formArrayName="bank_id" *ngFor="let bank of banks.controls; let i = index">
+                  <div [formGroupName]="i" class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <span>Bank {{ i + 1 }}</span>
+                      <button type="button" class="btn btn-sm btn-danger" (click)="removeBank(i)"
+                              *ngIf="banks.length > 1">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">IFSC Code</label>
+                            <input type="text" formControlName="bank_ifsc_code" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">Bank Name</label>
+                            <input type="text" formControlName="bank_name" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">Branch Name</label>
+                            <input type="text" formControlName="branch_name" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label required">Account Number</label>
+                            <input type="text" formControlName="account_no" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label required">Account Holder Name</label>
+                            <input type="text" formControlName="account_holder_name" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="row">
+              <div class="col-12 text-end">
+                <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+                  {{ isEditMode ? 'Update' : 'Create' }} Party
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger mt-3">
+              {{ error }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+.no-data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.no-data-gif {
+  max-width: 180px;   /* adjust size to fit table cell */
+  height: auto;
+}
+
+.no-data-text {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6c757d; /* Bootstrap muted text */
+}

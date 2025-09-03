@@ -1,0 +1,13 @@
+/* party-form.component.css */
+.required:after {
+  content: " *";
+  color: red;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+}
+
+.form-check-input {
+  margin-top: 0.25rem;
+}
