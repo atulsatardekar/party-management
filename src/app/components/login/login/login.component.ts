@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr:ToastrService
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -43,7 +45,8 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(this.f['username'].value, this.f['password'].value)
       .subscribe({
-        next: () => {
+        next: (res) => {
+          this.toastr.success('Login successful!', 'Success');
           this.router.navigate(['/parties']);
         },
         error: error => {

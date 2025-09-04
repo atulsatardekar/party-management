@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,11 +9,12 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastr:ToastrService) {}
 
   logout() {
     this.authService.logout().subscribe({
-      next: () => {
+      next: (res:any) => {
+        this.toastr.success(res?.status || 'Success');
         this.router.navigate(['/login']);
       },
       error: (error) => {
