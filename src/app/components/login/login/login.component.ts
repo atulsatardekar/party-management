@@ -50,7 +50,8 @@ export class LoginComponent {
           this.router.navigate(['/parties']);
         },
         error: error => {
-          this.error = error.error.message || 'Login failed';
+          console.log(error,'1111111');
+          this.toastr.error(error?.error?.msg || 'Login failed', 'Error');
           this.loading = false;
         }
       });
