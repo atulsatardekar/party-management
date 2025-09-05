@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartyService } from 'src/app/services/party.service';
+import { CustomValidators } from '../../sharedComponents/validators/validators';
 
 @Component({
   selector: 'app-party-form',
@@ -37,7 +38,7 @@ export class PartyFormComponent {
     this.partyForm = this.fb.group({
       name: ['', Validators.required],
       company_name: [''],
-      mobile_no: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      mobile_no: ['', [Validators.required,]],
       telephone_no: [''],
       whatsapp_no: [''],
       email: ['', Validators.email],
@@ -89,7 +90,7 @@ export class PartyFormComponent {
       bank_ifsc_code: [bank?.bank_ifsc_code || '', Validators.required],
       bank_name: [bank?.bank_name || '', Validators.required],
       branch_name: [bank?.branch_name || '', Validators.required],
-      account_no: [bank?.account_no || '', [Validators.required, Validators.pattern('^[0-9]{9,18}$')]],
+      account_no: [bank?.account_no || '', [Validators.required]],
       account_holder_name: [bank?.account_holder_name || '', Validators.required]
     });
   }

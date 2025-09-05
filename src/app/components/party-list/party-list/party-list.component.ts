@@ -10,7 +10,7 @@ import { PartyService } from 'src/app/services/party.service';
 export class PartyListComponent implements OnInit{
   parties: Party[] = [];
   currentPage = 1;
-  pageSize = 1;
+  pageSize = 10;
   totalItems = 0;
   searchTerm = '';
   isLoading = false;

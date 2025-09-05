@@ -28,22 +28,29 @@
 
                 <div class="mb-3">
                   <label class="form-label required">Mobile No</label>
-                  <input type="text" formControlName="mobile_no" class="form-control"
-                         [class.is-invalid]="submitted && f['mobile_no'].errors" />
+                  <input type="text"
+                  formControlName="mobile_no"
+                  class="form-control"
+                  maxlength="10"
+                  inputRestriction="numeric"
+                  [class.is-invalid]="submitted && f['mobile_no'].errors" />
+
+
                   <div *ngIf="submitted && f['mobile_no'].errors" class="invalid-feedback">
                     <div *ngIf="f['mobile_no'].errors['required']">Mobile number is required</div>
-                    <div *ngIf="f['mobile_no'].errors['pattern']">Please enter a valid 10-digit mobile number</div>
+                    <div *ngIf="f['mobile_no'].errors['numericOnly']">Please enter a valid 10-digit mobile number</div>
                   </div>
                 </div>
 
+
                 <div class="mb-3">
                   <label class="form-label">Telephone No</label>
-                  <input type="text" formControlName="telephone_no" class="form-control" />
+                  <input type="text" inputRestriction="numeric" formControlName="telephone_no" class="form-control" />
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">WhatsApp No</label>
-                  <input type="text" formControlName="whatsapp_no" class="form-control" />
+                  <input type="text"  maxlength="10" inputRestriction="numeric" formControlName="whatsapp_no" class="form-control" />
                 </div>
 
                 <div class="mb-3">
@@ -66,14 +73,42 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">GSTIN</label>
-                  <input type="text" formControlName="gstin" class="form-control" />
+                  <label class="form-label required">GSTIN</label>
+                  <input
+                    type="text"
+                    formControlName="gstin"
+                    inputRestriction="gstin"
+                    class="form-control"
+                    [class.is-invalid]="submitted && f['gstin'].errors"
+                  />
+                  <div *ngIf="submitted && f['gstin'].errors" class="invalid-feedback">
+                    <div *ngIf="f['gstin'].errors['required']">GSTIN is required</div>
+                    <div *ngIf="f['gstin'].errors['invalidFormat']">
+                      Invalid GSTIN format (15 characters: e.g., 27ABCDE1234F1Z5)
+                    </div>
+                  </div>
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">PAN No</label>
-                  <input type="text" formControlName="pan_no" class="form-control" />
+                  <label class="form-label required">PAN No</label>
+                  <input
+                    type="text"
+                    formControlName="pan_no"
+                    inputRestriction="pan"
+                    class="form-control"
+                    [class.is-invalid]="submitted && f['pan_no'].errors"
+                  />
+
+                  <div *ngIf="submitted && f['pan_no'].errors" class="invalid-feedback">
+                    <div *ngIf="f['pan_no'].errors['required']">
+                      PAN number is required
+                    </div>
+                    <div *ngIf="f['pan_no'].errors['invalidFormat']">
+                      Invalid PAN format (e.g., ABCDE1234F)
+                    </div>
+                  </div>
                 </div>
+
 
                 <div class="mb-3">
                   <label class="form-label">Credit Limit</label>
@@ -163,7 +198,7 @@
                         <div class="col-md-3">
                           <div class="mb-3">
                             <label class="form-label required">Pincode</label>
-                            <input type="text" formControlName="pincode" class="form-control" />
+                            <input type="text" inputRestriction="numeric" formControlName="pincode" class="form-control" />
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -191,8 +226,8 @@
                   </button>
                 </h5>
 
-                <div formArrayName="bank_id" *ngFor="let bank of banks.controls; let i = index">
-                  <div [formGroupName]="i" class="card mb-3">
+                <div formArrayName="bank_id">
+                  <div *ngFor="let bank of banks.controls; let i = index" [formGroupName]="i" class="card mb-3">
                     <div class="card-header d-flex justify-content-between align-items-center">
                       <span>Bank {{ i + 1 }}</span>
                       <button type="button" class="btn btn-sm btn-danger" (click)="removeBank(i)"
@@ -200,42 +235,83 @@
                         <i class="fas fa-trash"></i>
                       </button>
                     </div>
+
                     <div class="card-body">
                       <div class="row">
+
+                        <!-- IFSC Code -->
                         <div class="col-md-3">
                           <div class="mb-3">
                             <label class="form-label required">IFSC Code</label>
-                            <input type="text" formControlName="bank_ifsc_code" class="form-control" />
+                            <input
+                              type="text"
+                              formControlName="bank_ifsc_code"
+                              inputRestriction="ifsc"
+                              class="form-control"
+                              [class.is-invalid]="submitted && bank.get('bank_ifsc_code')?.errors"
+                            />
+                            <div *ngIf="submitted && bank.get('bank_ifsc_code')?.errors" class="invalid-feedback">
+                              <div *ngIf="bank.get('bank_ifsc_code')?.errors?.['required']">
+                                IFSC Code is required
+                              </div>
+                              <div *ngIf="bank.get('bank_ifsc_code')?.errors?.['invalidFormat']">
+                                Invalid IFSC format (e.g., SBIN0001234)
+                              </div>
+                            </div>
                           </div>
                         </div>
+
+                        <!-- Bank Name -->
                         <div class="col-md-3">
                           <div class="mb-3">
                             <label class="form-label required">Bank Name</label>
                             <input type="text" formControlName="bank_name" class="form-control" />
                           </div>
                         </div>
+
+                        <!-- Branch Name -->
                         <div class="col-md-3">
                           <div class="mb-3">
                             <label class="form-label required">Branch Name</label>
                             <input type="text" formControlName="branch_name" class="form-control" />
                           </div>
                         </div>
+
+                        <!-- Account Number -->
                         <div class="col-md-3">
                           <div class="mb-3">
                             <label class="form-label required">Account Number</label>
-                            <input type="text" formControlName="account_no" class="form-control" />
+                            <input
+                              type="text"
+                              formControlName="account_no"
+                              inputRestriction="account"
+                              class="form-control"
+                              [class.is-invalid]="submitted && bank.get('account_no')?.errors"
+                            />
+                            <div *ngIf="submitted && bank.get('account_no')?.errors" class="invalid-feedback">
+                              <div *ngIf="bank.get('account_no')?.errors?.['required']">
+                                Account number is required
+                              </div>
+                              <div *ngIf="bank.get('account_no')?.errors?.['invalidFormat']">
+                                Invalid account number (must be 9–18 digits)
+                              </div>
+                            </div>
                           </div>
                         </div>
+
+                        <!-- Account Holder Name -->
                         <div class="col-md-6">
                           <div class="mb-3">
                             <label class="form-label required">Account Holder Name</label>
                             <input type="text" formControlName="account_holder_name" class="form-control" />
                           </div>
                         </div>
+
                       </div>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
 
