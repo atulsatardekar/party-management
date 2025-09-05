@@ -28,7 +28,10 @@ export class PartyListComponent implements OnInit{
       .subscribe({
         next: (response) => {
           this.parties = response.data || [];
-          this.totalItems = response.count || this.parties.length;
+          this.totalItems = response.total_data || 0;
+          this.pageSize = Number(response.page_size) || 10;
+          this.currentPage = response.current_page || 1;
+
           this.isLoading = false;
         },
         error: (error) => {

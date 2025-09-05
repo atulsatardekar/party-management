@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartyService } from 'src/app/services/party.service';
-import { CustomValidators } from '../../sharedComponents/validators/validators';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
