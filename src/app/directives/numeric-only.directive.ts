@@ -33,7 +33,7 @@ export class InputRestrictionDirective implements Validator {
 
   // ✅ Validator method
   validate(control: AbstractControl): ValidationErrors | null {
-    const value = control.value?.toUpperCase() ?? '';
+    const value = typeof control.value==='string'? control.value.toUpperCase() : '';
 
     const strictPattern = this.strictPatterns[this.restrictionType];
     if (strictPattern && value && !strictPattern.test(value)) {

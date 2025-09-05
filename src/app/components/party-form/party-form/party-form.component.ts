@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartyService } from 'src/app/services/party.service';
 import { CustomValidators } from '../../sharedComponents/validators/validators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-party-form',
@@ -34,6 +35,7 @@ export class PartyFormComponent {
     private route: ActivatedRoute,
     private router: Router,
     private partyService: PartyService,
+    private toaster:ToastrService
   ) {
     this.partyForm = this.fb.group({
       name: ['', Validators.required],
@@ -155,11 +157,18 @@ export class PartyFormComponent {
 
     if (this.isEditMode && this.partyId) {
       this.partyService.updateParty(this.partyId, partyData).subscribe({
-        next: () => {
-          this.router.navigate(['/parties']);
+        next: (res:any) => {
+          if (res.success) {
+            this.toaster.success(res?.msg || 'Party updated successfully', 'Success');
+            this.isLoading = false;
+            this.router.navigate(['/parties']);
+          } else {
+            this.toaster.error(res?.msg || 'Failed to update party', 'Error');
+          }
         },
         error: (error) => {
-          this.error = error.error.message || 'Failed to update party';
+          console.log(error, 'errrp');
+          this.toaster.error(error.error?.msg || 'Something went wrong!', 'Error');
           this.isLoading = false;
         }
       });
@@ -169,6 +178,7 @@ export class PartyFormComponent {
           this.router.navigate(['/parties']);
         },
         error: (error) => {
+          this.toaster.error(error?.error, 'Error');
           this.error = error.error.message || 'Failed to create party';
           this.isLoading = false;
         }

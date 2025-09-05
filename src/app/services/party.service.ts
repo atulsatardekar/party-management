@@ -14,17 +14,20 @@ export class PartyService {
   getParties(page: number = 1, pageSize: number = 10, search: string = ''): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('page_size', pageSize.toString());
+      .set('page_size', pageSize.toString())
 
-    if (search) {
-      params = params.set('search', search);
-    }
+      if (search && search.trim() !== '') {
+        params = params.set('search', search.trim());
+      }
 
     return this.http.get<any>(this.apiUrl, { params });
   }
 
   getParty(id: number): Observable<Party> {
-    return this.http.get<Party>(`${this.apiUrl}?id=${id}`);
+    // Fixed: Use proper parameter format as shown in documentation
+    return this.http.get<Party>(this.apiUrl, {
+      params: new HttpParams().set('id', id.toString())
+    });
   }
 
   createParty(party: Party): Observable<Party> {

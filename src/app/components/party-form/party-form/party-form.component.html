@@ -77,16 +77,9 @@
                   <input
                     type="text"
                     formControlName="gstin"
-                    inputRestriction="gstin"
                     class="form-control"
                     [class.is-invalid]="submitted && f['gstin'].errors"
                   />
-                  <div *ngIf="submitted && f['gstin'].errors" class="invalid-feedback">
-                    <div *ngIf="f['gstin'].errors['required']">GSTIN is required</div>
-                    <div *ngIf="f['gstin'].errors['invalidFormat']">
-                      Invalid GSTIN format (15 characters: e.g., 27ABCDE1234F1Z5)
-                    </div>
-                  </div>
                 </div>
 
                 <div class="mb-3">

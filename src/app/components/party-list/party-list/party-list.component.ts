@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Party } from 'src/app/models/party.model';
 import { PartyService } from 'src/app/services/party.service';
 
@@ -15,7 +16,7 @@ export class PartyListComponent implements OnInit{
   searchTerm = '';
   isLoading = false;
 
-  constructor(private partyService: PartyService) { }
+  constructor(private partyService: PartyService,private toaster:ToastrService) { }
 
   ngOnInit() {
     this.loadParties();
@@ -50,7 +51,8 @@ export class PartyListComponent implements OnInit{
   deleteParty(id: number) {
     if (confirm('Are you sure you want to delete this party?')) {
       this.partyService.deleteParty(id).subscribe({
-        next: () => {
+        next: (res:any) => {
+          this.toaster.success(res?.msg || 'Party deleted successfully','Success')
           this.loadParties();
         },
         error: (error) => {
