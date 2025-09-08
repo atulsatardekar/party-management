@@ -17,7 +17,6 @@ export class PartyFormComponent {
   submitted = false;
   error = '';
 
-  // Options for dropdowns
   gstTypes = [
     'UnRegistered',
     'Registered Regular',
@@ -65,7 +64,6 @@ export class PartyFormComponent {
       }
     });
 
-    // Add one empty address and bank by default
     this.addAddress();
     this.addBank();
   }
@@ -118,11 +116,9 @@ export class PartyFormComponent {
       next: (party) => {
         this.partyForm.patchValue(party);
 
-        // Clear existing arrays
         while (this.addresses.length) this.addresses.removeAt(0);
         while (this.banks.length) this.banks.removeAt(0);
 
-        // Add addresses and banks from the loaded party
         if (party.address) {
           party.address.forEach((addr: any) => this.addAddress(addr));
         } else {

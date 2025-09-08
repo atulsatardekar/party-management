@@ -23,12 +23,10 @@
       </div>
     </div>
     <div class="card-body p-0">
-      <!-- Loader -->
       <div *ngIf="isLoading" class="text-center py-5">
         <app-loader></app-loader>
       </div>
 
-      <!-- Party Table -->
       <div *ngIf="!isLoading" class="table-responsive">
         <table class="table table-hover align-middle mb-0">
           <thead class="table-dark">
@@ -51,7 +49,6 @@
                   </div>
                 </td>
 
-                <!-- Contact Column -->
                 <td>
                   <div class="d-flex flex-column">
                     <div><i class="fas fa-phone-alt me-1 text-muted"></i> {{ party.mobile_no || 'N/A' }}</div>
@@ -83,14 +80,12 @@
                   </div>
                 </td>
 
-                <!-- Status Column -->
                 <td>
                   <span class="badge p-2" [ngClass]="party.is_active ? 'bg-success' : 'bg-danger'">
                     {{ party.is_active ? 'Active' : 'Inactive' }}
                   </span>
                 </td>
 
-                <!-- Actions Column -->
                 <td class="text-center">
                   <div class="btn-group-vertical btn-group-sm" role="group">
                     <button class="btn btn-outline-primary mb-1" [routerLink]="['/parties', party.id, 'edit']">
@@ -106,13 +101,11 @@
           </tbody>
         </table>
 
-        <!-- No data message -->
         <div *ngIf="!isLoading && parties?.length === 0" class="text-center py-5">
           <app-no-data></app-no-data>
         </div>
       </div>
 
-      <!-- Pagination -->
       <nav *ngIf="totalPages >= 1 && !isLoading" aria-label="Page navigation" class="my-3">
         <ul class="pagination justify-content-center">
           <li class="page-item" [class.disabled]="currentPage === 1">

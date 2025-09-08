@@ -1,4 +1,3 @@
-/* party-form.component.css */
 .required:after {
   content: " *";
   color: red;

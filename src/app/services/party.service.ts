@@ -24,7 +24,6 @@ export class PartyService {
   }
 
   getParty(id: number): Observable<Party> {
-    // Fixed: Use proper parameter format as shown in documentation
     return this.http.get<Party>(this.apiUrl, {
       params: new HttpParams().set('id', id.toString())
     });

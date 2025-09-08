@@ -25,13 +25,12 @@ export class InputRestrictionDirective implements Validator {
   };
 
   private strictPatterns: { [key: string]: RegExp } = {
-    gstin: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, // GSTIN
-    pan: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,                                   // PAN
-    ifsc: /^[A-Z]{4}0[A-Z0-9]{6}$/,                                      // IFSC
-    account: /^[0-9]{9,18}$/                                             // Account no
+    gstin: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
+    pan: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
+    ifsc: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+    account: /^[0-9]{9,18}$/
   };
 
-  // ✅ Validator method
   validate(control: AbstractControl): ValidationErrors | null {
     const value = typeof control.value==='string'? control.value.toUpperCase() : '';
 
@@ -42,7 +41,6 @@ export class InputRestrictionDirective implements Validator {
     return null;
   }
 
-  // ✅ Keystroke blocking
   @HostListener('keypress', ['$event'])
   onKeyPress(event: KeyboardEvent) {
     const inputChar = String.fromCharCode(event.charCode).toUpperCase();
@@ -52,7 +50,6 @@ export class InputRestrictionDirective implements Validator {
     }
   }
 
-  // ✅ Auto uppercase & length restriction
   @HostListener('input', ['$event'])
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;

@@ -9,7 +9,7 @@ import { PartyFormComponent } from './components/party-form/party-form/party-for
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './services/token.interceptor';
-import { NavigationComponent } from './navigation/navigation/navigation.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 import { SharedModule } from './sharedModule/shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
 
