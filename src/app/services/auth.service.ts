@@ -38,11 +38,11 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post(`${this.apiUrl}logout/`, {})
-      .pipe(tap(() => {
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
-      }));
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+
+    // Then call the API logout
+    return this.http.post(`${this.apiUrl}logout/`, {});
   }
 
   isLoggedIn(): boolean {

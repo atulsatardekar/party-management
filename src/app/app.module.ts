@@ -12,6 +12,7 @@ import { TokenInterceptor } from './services/token.interceptor';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SharedModule } from './sharedModule/shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,11 @@ import { ToastrModule } from 'ngx-toastr';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true
     }
   ],

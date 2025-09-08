@@ -14,6 +14,7 @@ export class LoginComponent {
   loading = false;
   submitted = false;
   error = '';
+  returnUrl: string = '/parties';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,12 +26,13 @@ export class LoginComponent {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate([this.returnUrl]);
+    }
   }
 
   ngOnInit() {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/parties']);
-    }
+    this.returnUrl = this.router.routerState.snapshot.url || '/parties';
   }
 
   get f() { return this.loginForm.controls; }
@@ -47,7 +49,7 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           this.toastr.success('Login successful!', 'Success');
-          this.router.navigate(['/parties']);
+          this.router.navigate([this.returnUrl]);
         },
         error: error => {
           console.log(error,'1111111');

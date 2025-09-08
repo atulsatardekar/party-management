@@ -14,7 +14,8 @@ export class AppComponent {
   ngOnInit() {
     // Subscribe to authentication state changes
     this.authService.currentUser.subscribe(user => {
-      this.isLoggedIn = !!user?.token;
+      this.isLoggedIn = !!user;
     });
+    this.isLoggedIn=this.authService.isLoggedIn();
   }
 }
