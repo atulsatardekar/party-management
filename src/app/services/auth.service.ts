@@ -38,12 +38,14 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-
-    // Then call the API logout
-    return this.http.post(`${this.apiUrl}logout/`, {});
+    return this.http.post(`${this.apiUrl}logout/`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+      })
+    );
   }
+
 
   isLoggedIn(): boolean {
     return !!this.currentUserValue?.token;

@@ -8,7 +8,7 @@ import { PartyListComponent } from './components/party-list/party-list/party-lis
 import { PartyFormComponent } from './components/party-form/party-form/party-form.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TokenInterceptor } from './services/token.interceptor';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SharedModule } from './sharedModule/shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
